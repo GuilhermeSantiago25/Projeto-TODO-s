@@ -1,12 +1,12 @@
-const bd = require('../infra/bd');
-
+let  id = 0;
 class Usuario  {
-    constructor(id,nome,email,senha){
+    constructor(nome,email,senha){
         this.id = id++; 
         this.nome = nome;
         this.email = email;
         this.senha = senha;
     }
+
 } 
 
 module.exports = Usuario;
