@@ -91,7 +91,7 @@ const usuario = app => {
             );
             res.json({"Atualizado": usuarioAtualizado});
         } else {
-            res.json({mensagem: `Usuario com ${nome} não existe.`})
+            res.json({mensagem: `Usuario com ${nome} não existe.`});
         }
     });
 
@@ -111,7 +111,7 @@ const usuario = app => {
             );
             res.json({"Atualizado": usuarioAtualizado});
         } else {
-            res.json({mensagem: `Usuario com ${email} não existe.`})
+            res.json({mensagem: `Usuario com ${email} não existe.`});
         }
     });
 
