@@ -2,12 +2,13 @@ const bd = require('../infra/bd');
 const Usuario = require('../models/usuario-model');
 
 const usuario = app => {
-
+    //PROCURA NO BANCO TODOS OS USUARIOS 
     app.get('/usuario', function (req, res) {
 
         res.json(bd.usuarios);
         //res.send('Rota ativada com GET e recurso usuario: valores de usuario devem ser retornados');
     })
+    
     //rota por parametro :nome
     app.get('/usuario/:nome', function (req, res) {
         const {
@@ -17,12 +18,13 @@ const usuario = app => {
             nome
         });
     })
+    
     //rota por parametro :email
     app.get('/usuario/:email', (req, res) => {
         const email = req.params.email;
         for (let i = 0; i <= bd.length; i++) {
             if (bd[i].email == email) {
-                return `o email encontrado e ${email}`
+                return `o email encontrado é: ${email}`
             }
         }
     })
@@ -34,7 +36,7 @@ const usuario = app => {
 
         bd.usuarios.push(usuarios);
         res.status(201).json({
-            "usuarioCadastrado": body.nome
+            "usuarioCadastrado": body.nome, 
         })
         //res.send('Rota POST de usuario ativada: usuario adicionado ao banco de dados');
     })
