@@ -44,9 +44,9 @@ const usuario = app => {
     //Exclui um usuario pelo nome
     app.delete('/usuario/:nome', (req,res) => {
         const nome = req.params.nome;
-        const idexUsuarioNome = bd.usuarios.findIndex((usuario => usuario.nome === nome))
-        if (idexUsuarioNome > -1) {
-            const usuarioDeletado = bd.usuarios.splice(indexUsuarioNome, 1);
+        const indexUsuario = bd.usuarios.findIndex((usuario => usuario.nome === nome))
+        if (indexUsuario > -1) {
+            const usuarioDeletado = bd.usuarios.splice(indexUsuario, 1);
             res.json({
                 "deletado": usuarioDeletado,
             });
