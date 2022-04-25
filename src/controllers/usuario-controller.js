@@ -4,7 +4,7 @@ const Usuario = require('../models/usuario-model');
 const usuario = (app,bd) => {
     //PROCURA NO BANCO TODOS OS USUARIOS 
     app.get('/usuario', (req, res) =>{
-        bd.all('SELECT * FROM USUARIOS',(err, rows) => {
+        bd.all(`SELECT * FROM USUARIOS`,(err, rows) => {
             if(err){
                 res.json("ERRO AO SELECIONAR O BANCO")
             } else {
@@ -19,6 +19,21 @@ const usuario = (app,bd) => {
     //PROCURA NO BANCO PELO PARAMETRO
     app.get('/usuario/:indicador', function (req, res) {
         const indicador = req.params.indicador;
+        
+        bd.all(`SELECT * FROM USUARIOS WHERE id = ${indicador} or name = ${indicador} LIMIT`,(err, rows) => {
+            if(err){
+                res.json("ERRO AO SELECIONAR O BANCO")
+            } else {
+                res.json({
+                    "Banco selecionado": rows
+                });
+            }
+        });
+      
+        
+        
+        
+        
         const indexUsuario = bd.usuarios.findIndex((usuario => usuario.nome === indicador || usuario.email === indicador));
         
         if (indexUsuario > -1) {
