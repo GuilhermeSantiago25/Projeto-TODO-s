@@ -3,9 +3,17 @@ const Usuario = require('../models/usuario-model');
 
 const usuario = (app,bd) => {
     //PROCURA NO BANCO TODOS OS USUARIOS 
-    app.get('/usuario', function (req, res) {
-
-        res.json(bd.usuarios);
+    app.get('/usuario', (req, res) =>{
+        bd.all('SELECT * FROM USUARIOS',(error, rows) => {
+            if(error){
+                res.json("ERRO AO SELECIONAR O BANCO")
+            } else {
+                res.json({
+                    "Banco selecionado": rows
+                });
+            }
+        });
+      
     });
     
     //PROCURA NO BANCO PELO PARAMETRO
