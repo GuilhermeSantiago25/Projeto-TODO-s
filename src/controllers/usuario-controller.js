@@ -1,7 +1,7 @@
-const bd = require('../infra/bd');
+
 const Usuario = require('../models/usuario-model');
 
-const usuario = app => {
+const usuario = (app,bd) => {
     //PROCURA NO BANCO TODOS OS USUARIOS 
     app.get('/usuario', function (req, res) {
 

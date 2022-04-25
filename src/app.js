@@ -1,6 +1,6 @@
 const express = require('express');
 
-const bd = require('../src/infra/bd');
+const bd = require('../src/infra/sqlite-db');
 
 const usuarioController = require('../src/controllers/usuario-controller');
 
@@ -24,5 +24,5 @@ app.use(express.json()); //middleware
 
 app.listen(8000, ()=>console.log('Rodando no servidor na porta 8000'));
 
-usuarioController(app);
-tarefaController(app);
+usuarioController(app, bd);
+tarefaController(app, bd);
