@@ -4,8 +4,8 @@ const Usuario = require('../models/usuario-model');
 const usuario = (app,bd) => {
     //PROCURA NO BANCO TODOS OS USUARIOS 
     app.get('/usuario', (req, res) =>{
-        bd.all('SELECT * FROM USUARIOS',(error, rows) => {
-            if(error){
+        bd.all('SELECT * FROM USUARIOS',(err, rows) => {
+            if(err){
                 res.json("ERRO AO SELECIONAR O BANCO")
             } else {
                 res.json({
