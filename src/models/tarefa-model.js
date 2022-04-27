@@ -1,1 +1,2 @@
-const bd = require('../infra/bd');
+/* const bd = require('../infra/bd');
+ */

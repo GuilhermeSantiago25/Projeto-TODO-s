@@ -1,70 +1,48 @@
-
+const UsuarioDAO = require('../DAO/usuario-dao');
 const Usuario = require('../models/usuario-model');
 
-const usuario = (app,bd) => {
-    //PROCURA NO BANCO TODOS OS USUARIOS 
-    app.get('/usuario', (req, res) =>{
-        bd.all(`SELECT * FROM USUARIOS`,(err, rows) => {
-            if(err){
-                res.json("ERRO AO SELECIONAR O BANCO")
-            } else {
-                res.json({
-                    "Banco selecionado": rows
-                });
-            }
-        });
-      
+const usuario = (app, bd) => {
+    const usuarioDao = new UsuarioDAO(bd);
+    app.get('/usuario', (req, res) => {
+        usuarioDao.listarUsuario()
+            .then((resposta) => {
+                res.json(resposta);
+            })
+            .catch((err) => {
+                res.json(err);
+            })
     });
     
-    //PROCURA NO BANCO PELO PARAMETRO
     app.get('/usuario/:indicador', function (req, res) {
         const indicador = req.params.indicador;
-        
-        bd.all(`SELECT * FROM USUARIOS WHERE id = ${indicador} or name = ${indicador} LIMIT`,(err, rows) => {
-            if(err){
-                res.json("ERRO AO SELECIONAR O BANCO")
-            } else {
-                res.json({
-                    "Banco selecionado": rows
-                });
-            }
-        });
-      
-        
-        
-        
-        
-        const indexUsuario = bd.usuarios.findIndex((usuario => usuario.nome === indicador || usuario.email === indicador));
-        
-        if (indexUsuario > -1) {
-            
-            res.status(200).json({
-                "Usuario": bd.usuarios,
-            });
-        } else {
-            res.json({
-                "mensagem": `Usuário "${indicador}" não existe`,
-            });
-        }
-
+        const usuarioDao = new UsuarioDAO(bd);
+        app.get('/usuario', (req, res) => {
+            usuarioDao.listarUsuarioParam(indicador)
+            .then((resposta) => {
+                res.json(resposta);
+            })
+            .catch((err)=>{
+                res.json(err);
+            })
+        })
     });
-    
-    //Cria um novo usuario atraves da classe Usuario
+
     app.post('/usuario', function (req, res) {
         const body = req.body;
         const usuarios = new Usuario(body.nome, body.email, body.senha);
-
-        bd.usuarios.push(usuarios);
-        res.status(201).json({
-            "usuarioCadastrado": body.nome, 
-        });
+        const usuarioDao = new UsuarioDAO(bd);
+        usuarioDao.inserirUsuario(usuarios)
+            .then(() => {
+                res.json("Sucess");
+            })
+            .catch((err) => {
+                res.json(err);
+            })
     });
-    
-    //EXCLUI UM USUARIO PELO PARAMETRO
-    app.delete('/usuario/:indicador', (req,res) => {
+    app.delete('/usuario/:indicador', (req, res) => {
         const indicador = req.params.indicador;
         const indexUsuario = bd.usuarios.findIndex((usuario => usuario.nome === indicador || usuario.email === indicador));
-        
+
         if (indexUsuario > -1) {
             const usuarioDeletado = bd.usuarios.splice(indexUsuario, 1);
             res.status(200).json({
@@ -76,15 +54,12 @@ const usuario = (app,bd) => {
             });
         }
     });
-    
-
-    //ATUALIZA O USUARIO PELO PARAMETRO;
-    app.put('/usuario/:indicador', (req,res) =>{
+    app.put('/usuario/:indicador', (req, res) => {
         const indicador = req.params.indicador;
         const body = req.body;
         const indexUsuario = bd.usuarios.findIndex((usuario => usuario.nome === indicador || usuario.email === indicador));
 
-        if(indexUsuario > -1) {
+        if (indexUsuario > -1) {
             const usuarioAntigo = bd.usuarios[indexUsuario];
             const usuarioAtualizado = new Usuario(
                 body.nome || usuarioAntigo.nome,
@@ -92,9 +67,13 @@ const usuario = (app,bd) => {
                 body.senha || usuarioAntigo.senha,
                 usuarioAntigo.id
             );
-            res.status(200).json({"Atualizado": usuarioAtualizado});
+            res.status(200).json({
+                "Atualizado": usuarioAtualizado
+            });
         } else {
-            res.status(404).json({mensagem: `Usuario com ${nome} não existe.`});
+            res.status(404).json({
+                mensagem: `Usuario com ${nome} não existe.`
+            });
         }
     });
 

@@ -1,4 +1,4 @@
-const bd = require('../infra/sqlite-db');
+/* const bd = require('../infra/sqlite-db');
 const Tarefa = require('../models/tarefa-model');
 
 
@@ -15,7 +15,7 @@ const tarefa = app => {
     console.log(Object.keys(body)) //Nome da propriedade do objeto;
     console.log(Object.entries(body)) //REtorna a propriedade e o valor do objeto; */
     //res.send('Rota POST de tarefa ativada: tarefa adicionado ao banco de dados')
-  })
+/*   })
 }
 
-module.exports = tarefa;
+module.exports = tarefa; */ 
