@@ -18,9 +18,11 @@ class UsuarioDAO {
         })
     })}
 
-    listarUsuarioParam(indicador){
+    listarUsuarioParam(){
         return new Promise ((resolve,reject) =>{
-            this.bd.all(`SELECT * FROM USUARIOS WHERE id = ${indicador} or name = ${indicador} or email = ${indicador}`,(err, rows) => {
+            this.bd.all(`SELECT * FROM USUARIOS WHERE id = $indicador or name = $indicador or email = $indicador`,{
+                $indicador: indicador
+            },(err, rows) => {
                 if (err) {
                     reject (err);
                 } else {
@@ -29,9 +31,8 @@ class UsuarioDAO {
                     });
                 }
             });
-        })
+        });
     }
-
 
     inserirUsuario(usuarios){ 
         return new Promise((resolve,reject) =>{
